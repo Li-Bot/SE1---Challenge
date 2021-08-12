@@ -1,4 +1,4 @@
-# SE1---Challenge
+# SE1 Challenge
 
 ## Instructions
 The challenge consists of many steps that represent business and non-business requirements. The concept of this challenge is based on computing the price of a given order and its related business rules and requirements, or non-business requirements as well. 
@@ -7,6 +7,7 @@ The challenge consists of many steps that represent business and non-business re
 User Interface is not essential to this challenge. However, let's keep it consistent.
 Create an simple iOS/Android app with one screen that looks like this:
 
+<img src="UI.png" alt="alt text" width="300">
 
 Use MVVM UI Design pattern and whatever binding technique that is convenient for you.
 Name the ViewModel as `SEChallengeViewModel`. When you tap on the Run button it fires a method in the ViewModel and once the asynchronous operation is done it shows the result which is going to be just one number.
