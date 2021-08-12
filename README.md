@@ -9,7 +9,7 @@ Fork this GitHub repository and once you are done create a pull request.
 User Interface is not essential to this challenge. However, let's keep it consistent.
 Create an simple iOS/Android app with one screen that looks like this:
 
-<img src="UI.png" alt="alt text" width="300">
+<img src="UI.png" alt="UI" width="300">
 
 Use MVVM UI Design pattern and whatever binding technique that is convenient for you.
 Name the ViewModel as `SEChallengeViewModel`. When you tap on the Run button it fires a method in the ViewModel and once the asynchronous operation is done it shows the result which is going to be just one number.
@@ -213,3 +213,7 @@ When you introduce your own abstraction (interface) always implement it in the s
 Your solution should be testable but do not write tests, again the tests are not main purpose of this challenge, thus it is not necessary.
 
 Enjoy! :) 
+
+
+### Diagram of Provided Components
+<img src="SE1Challenge.png" alt="Diagram" width="700">
