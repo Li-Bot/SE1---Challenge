@@ -143,6 +143,8 @@ Due to fact that this challenge is extracted from a real-life project and adjust
 
 Kotlin
 ```kotlin
+import kotlin.random.Random
+
 interface OrderGenerator {
     fun next() : Order
 }
@@ -170,6 +172,8 @@ class RandomOrderGenerator(_probability: Double): OrderGenerator {
 ```
 Swift
 ```swift
+import Foundation
+
 protocol OrderGenerator {
 	func next() -> Order
 }
