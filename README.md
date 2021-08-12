@@ -144,6 +144,7 @@ Due to fact that this challenge is extracted from a real-life project and adjust
 Kotlin
 ```kotlin
 import kotlin.random.Random
+import java.util.UUID
 
 interface OrderGenerator {
     fun next() : Order
