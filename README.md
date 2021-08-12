@@ -176,7 +176,7 @@ Swift
 import Foundation
 
 protocol OrderGenerator {
-	func next() -> Order
+    func next() -> Order
 }
 
 final class RandomOrderGenerator: OrderGenerator {
