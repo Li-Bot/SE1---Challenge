@@ -23,7 +23,7 @@ data class Order(val id: String)
 data class OrderPrice(val price: Double)
 
 interface OrderPricingLoader {
-    fun load(completion: (result: Result<OrderPrice>) -> Unit)
+    fun load(order: Order, completion: (result: Result<OrderPrice>) -> Unit)
 }
 ```
 Swift
@@ -52,7 +52,7 @@ import kotlin.random.Random
 class OrderPricingLoaderException(message: String): Exception(message)
 
 class RandomOrderPricingLoader : OrderPricingLoader {
-    override fun load(completion: (result: Result<OrderPrice>) -> Unit) {
+    override fun load(order: Order, completion: (result: Result<OrderPrice>) -> Unit) {
         if (isFailure()) {
             completion(Result.failure(getPricingException()))
         } else {
@@ -75,7 +75,7 @@ enum OrderPricingLoaderError: Error {
 }
 
 final class RandomOrderPricingLoader: OrderPricingLoader {
-    func load(completion: @escaping (Result<OrderPrice, Error>) -> Void) {
+    func load(order: Order, completion: @escaping (Result<OrderPrice, Error>) -> Void) {
         if (isFailure()) {
             completion(.failure(getPricingError()))
         } else {
