@@ -48,18 +48,22 @@ Default implementation that is given for you looks like this:
 Kotlin
 ```kotlin
 import kotlin.random.Random
+import kotlinx.coroutines.*
 
 class OrderPricingLoaderException(message: String): Exception(message)
 
 class RandomOrderPricingLoader : OrderPricingLoader {
     override fun load(order: Order, completion: (result: Result<OrderPrice>) -> Unit) {
-        if (isFailure()) {
-            completion(Result.failure(getPricingException()))
-        } else {
-            completion(Result.success(getRandomOrderPrice()))
+        performOnBackground {
+            if (isFailure()) {
+                completion(Result.failure(getPricingException()))
+            } else {
+                completion(Result.success(getRandomOrderPrice()))
+            }
         }
     }
     
+    private fun performOnBackground(action: () -> Unit) = GlobalScope.launch { action () }
     private fun isFailure() = Random.nextBoolean()
     private fun getPricingException() = OrderPricingLoaderException(":(")
     private fun getRandomOrderPrice() = OrderPrice(getRandomPrice())
@@ -76,13 +80,19 @@ enum OrderPricingLoaderError: Error {
 
 final class RandomOrderPricingLoader: OrderPricingLoader {
     func load(order: Order, completion: @escaping (Result<OrderPrice, Error>) -> Void) {
-        if (isFailure()) {
-            completion(.failure(getPricingError()))
-        } else {
-            completion(.success(getRandomOrderPrice()))
+        performOnBackground { [weak self] in
+            guard let self = self else { return }
+            if (self.isFailure()) {
+                completion(.failure(self.getPricingError()))
+            } else {
+                completion(.success(self.getRandomOrderPrice()))
+            }
         }
     }
-    
+
+    private func performOnBackground(action: @escaping () -> Void) {
+        DispatchQueue.global(qos: .background).async(execute: action)
+    }
     private func isFailure() -> Bool { Bool.random() }
     private func getPricingError() -> Error { OrderPricingLoaderError.generic(":(") }
     private func getRandomOrderPrice() -> OrderPrice { OrderPrice(value: getRandomPrice()) }
