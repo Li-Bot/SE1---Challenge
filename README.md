@@ -48,7 +48,7 @@ Default implementation that is given for you looks like this:
 Kotlin
 ```kotlin
 import kotlin.random.Random
-import kotlinx.coroutines.*
+import java.util.concurrent.Executors
 
 class OrderPricingLoaderException(message: String): Exception(message)
 
@@ -63,11 +63,16 @@ class RandomOrderPricingLoader : OrderPricingLoader {
         }
     }
     
-    private fun performOnBackground(action: () -> Unit) = GlobalScope.launch { action () }
+    private fun performOnBackground(action: Runnable) = DispatchQueue.execute(action)
     private fun isFailure() = Random.nextBoolean()
     private fun getPricingException() = OrderPricingLoaderException(":(")
     private fun getRandomOrderPrice() = OrderPrice(getRandomPrice())
     private fun getRandomPrice() = Random.nextDouble(1000.0, 200000.0)
+}
+
+object DispatchQueue {
+    private val pool = Executors.newScheduledThreadPool(4)
+    fun execute(runnable: Runnable) = pool.execute(runnable)
 }
 ```
 Swift
