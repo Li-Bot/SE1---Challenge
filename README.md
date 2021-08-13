@@ -188,8 +188,8 @@ class RandomOrderGenerator(_probability: Double): OrderGenerator {
         return last
     }
 
-    private fun shouldCreateNewOrder() = getRandomProbability() < probability
     private fun createNewOrder() = Order(UUID.randomUUID().toString())
+    private fun shouldCreateNewOrder() = getRandomProbability() < probability
     private fun getRandomProbability() = Random.nextDouble(0.0, 1.0)
 }
 ```
