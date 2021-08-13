@@ -121,7 +121,8 @@ When you implement this requirement, please bear in mind that you should get/loa
 
 ### Requirement 5: Price Discount
 When the price is returned from `OrderPricingLoader` and multiplied by Price multiplier you have to apply the discount if it satisfies given rules.
-The business rule is that if an order price is greater than or equal to 100000.0 you should apply 30% discount.
+The business rule is that if an order price is greater than or equal to 100000.0 you should apply 30% discount. 
+If an order price is greater than or equal to 150000.0 you should apply 50% discount.
 Here is the structure/data class of that discount:
 
 Kotlin
@@ -135,7 +136,7 @@ struct PriceDiscount {
 }
 ```
 
-When you implement this requirement, please bear in mind that you should get/load this structure/data class from somewhere, it should not be static but dynamic. It means you should introduce new abstraction (interface) to get/load that information.
+When you implement this requirement, please bear in mind that you should get/load this structure/data class from somewhere, it should not be static but dynamic. It means you should introduce new abstraction (interface) to get/load that information. You should get the appropriate discount based on an order price.
 
 ### Requirement 6: Failure Repetition
 When an failure is returned from `OrderPricingLoader` you have to try it one more time and when it fails again the whole operation fails.
