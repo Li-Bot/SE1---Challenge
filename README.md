@@ -136,7 +136,7 @@ struct PriceDiscount {
 }
 ```
 
-When you implement this requirement, please bear in mind that you should get/load this structure/data class from somewhere, it should not be static but dynamic. It means you should introduce new abstraction (interface) to get/load that information. You should get the appropriate discount based on an order price.
+When you implement this requirement, please bear in mind that you should get/load this structure/data class from somewhere, it should not be static but dynamic. It means you should introduce new abstraction (interface) to get/load that information.
 
 ### Requirement 6: Failure Repetition
 When an failure is returned from `OrderPricingLoader` you have to try it one more time and when it fails again the whole operation fails.
