@@ -12,7 +12,7 @@ Create an simple iOS/Android app with one screen that looks like this:
 <img src="UI.png" alt="UI" width="300">
 
 Use MVVM UI Design pattern and whatever binding technique that is convenient for you.
-Name the ViewModel as `SEChallengeViewModel`. When you tap on the Run button it fires a method in the ViewModel and once the asynchronous operation is done it shows the result which is going to be just one number.
+Name the ViewModel as `SEChallengeViewModel`. When you tap on the Run button it fires a method in the ViewModel and once the asynchronous operation is done it shows the result which is going to be just one number or when the error occurs show `Failure` text in the same Result label.
 
 ### Requirement 2: Core Service 
 You are given predefined interface and predefined implementation of that interface. You cannot change anything in the interface or the given implementation.
