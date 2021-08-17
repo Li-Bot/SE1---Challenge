@@ -6,7 +6,7 @@ import com.patlejch.se1challenge.OrderPrice
 class CalculateOrderPriceUC(
     private val getBasePriceUC: UseCase<GetBasePriceUC.In, OrderPrice>,
     private val applyMultiplierUC: UseCase<OrderPrice, OrderPrice>,
-    private val applyDiscountUC: UseCase<OrderPrice, OrderPrice>,
+    private val applyPriceBasedDiscountUC: UseCase<OrderPrice, OrderPrice>,
     private val logOrderPriceUC: UseCase<LogOrderPriceUC.In, Unit>
 ) : UseCase<Order, OrderPrice> {
 
@@ -37,7 +37,7 @@ class CalculateOrderPriceUC(
         completion: (Result<OrderPrice>) -> Unit
     ) {
         logOrderWithPrice(order, multipliedPrice)
-        applyDiscountUC(multipliedPrice) {
+        applyPriceBasedDiscountUC(multipliedPrice) {
             withResult(it, completion) {
                 logOrderWithPrice(order, it)
                 completion(Result.success(it))

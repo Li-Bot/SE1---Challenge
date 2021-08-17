@@ -5,7 +5,7 @@ interface Cache {
     fun savePrice(order: Order, orderPrice: OrderPrice, completion: (Result<Unit>) -> Unit)
 }
 
-class CacheInMemoryImpl : Cache {
+class InMemoryCache : Cache {
 
     private val prices = hashMapOf<Order, OrderPrice>()
 

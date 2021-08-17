@@ -6,7 +6,7 @@ import com.patlejch.se1challenge.uc.GetOrderWithPriceUC
 import com.patlejch.se1challenge.uc.UseCase
 import com.patlejch.se1challenge.uc.invoke
 
-class MainViewModel(
+class SEChallengeViewModel(
     private val getOrderWithPriceUC: UseCase<Unit, GetOrderWithPriceUC.Out>
 ) : ViewModel() {
 
@@ -15,9 +15,9 @@ class MainViewModel(
     fun compute() {
         getOrderWithPriceUC {
             it.onSuccess {
-                resultText.value = it.orderPrice.toString()
+                resultText.postValue(it.orderPrice.price.toString())
             }.onFailure {
-                resultText.value = "Failure"
+                resultText.postValue("Failure")
             }
         }
     }
