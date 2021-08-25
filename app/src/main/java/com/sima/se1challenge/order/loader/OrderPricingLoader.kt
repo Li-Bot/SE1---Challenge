@@ -5,4 +5,8 @@ import com.sima.se1challenge.model.OrderPrice
 
 interface OrderPricingLoader {
     fun load(order: Order, completion: (result: Result<OrderPrice>) -> Unit)
+
+    companion object {
+        fun getDefault(): OrderPricingLoader = RandomOrderPricingLoader()
+    }
 }
