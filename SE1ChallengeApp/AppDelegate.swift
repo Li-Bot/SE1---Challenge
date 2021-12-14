@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        window?.rootViewController = SEChallengeViewController(vm: SEChallengeViewModelImpl(service: .init()))
+        window?.rootViewController = SEChallengeViewController(vm: SEChallengeViewModelImpl(service: ServiceManagerImpl()))
         window?.makeKeyAndVisible()
         return true
     }

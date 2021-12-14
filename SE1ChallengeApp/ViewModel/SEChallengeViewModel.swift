@@ -14,7 +14,7 @@ class SEChallengeViewModelImpl {
     
     private var completion: ((Result<OrderPrice, Error>) -> Void)?
     
-    init(service: ServiceManagerImpl) {
+    init(service: ServiceManager) {
         orderPricingLoader = service.createRandomOrderPricingLoader()
         dataBaseManager = service.createPriceDataManager()
         orderPriceCalculator = service.createRandomOrderPriceCalculator()
