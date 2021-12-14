@@ -53,16 +53,16 @@ class SEChallengeViewModelImpl {
     }
     
     private func calculatorPrice(order: Order, orderPrice: OrderPrice, isNew: Bool) {
-        logIfNeed(order: order, orderPrice: orderPrice, isNew: isNew)
+        logIfNeeded(order: order, orderPrice: orderPrice, isNew: isNew)
         let orderPriceMultiple = orderPriceCalculator.multiplePrice(orderPrice: orderPrice)
-        logIfNeed(order: order, orderPrice: orderPriceMultiple, isNew: isNew)
+        logIfNeeded(order: order, orderPrice: orderPriceMultiple, isNew: isNew)
         let orderPriceDiscount = orderPriceCalculator.discountPrice(orderPrice: orderPriceMultiple)
-        logIfNeed(order: order, orderPrice: orderPriceDiscount, isNew: isNew)
+        logIfNeeded(order: order, orderPrice: orderPriceDiscount, isNew: isNew)
         
         fetchComplete(result: .success(orderPriceDiscount))
     }
     
-    private func logIfNeed(order: Order, orderPrice: OrderPrice, isNew: Bool) {
+    private func logIfNeeded(order: Order, orderPrice: OrderPrice, isNew: Bool) {
         if isNew {
             logger.log(order: order, price: orderPrice)
         }
