@@ -7,17 +7,14 @@ class SEChallengeViewController: Controller<SEChallengeViewModel> {
     
     override func setup() {
         super.setup()
+        vm.orderPriceChanged = { [weak self] orderText in
+            DispatchQueue.main.async {
+                self?.lbResult.text = orderText
+            }
+        }
     }
     
     @IBAction func actionRun(_ sender: Any) {
-        lbResult.text = "Loading..."
-        vm.runButtonTapped { [weak self] result in
-            switch result {
-            case .success(let orderPrice):
-                self?.lbResult.text = "Load price success: \(orderPrice.price)"
-            case .failure:
-                self?.lbResult.text = ":("
-            }
-        }
+        vm.runButtonTapped()
     }
 }

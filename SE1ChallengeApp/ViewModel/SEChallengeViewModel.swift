@@ -2,7 +2,8 @@
 import Foundation
 
 protocol SEChallengeViewModel: ViewModel {
-    func runButtonTapped(completion: @escaping (Result<OrderPrice, Error>) -> Void)
+    func runButtonTapped() -> Void
+    var orderPriceChanged: ((String) -> Void)? { get set }
 }
 
 class SEChallengeViewModelImpl {
@@ -12,7 +13,7 @@ class SEChallengeViewModelImpl {
     private let orderGenerator: OrderGenerator
     private let logger: SELogger
     
-    private var completion: ((Result<OrderPrice, Error>) -> Void)?
+    var _orderPriceChanged: ((String) -> Void)?
     
     init(service: ServiceManager) {
         orderPricingLoader = service.createRandomOrderPricingLoader()
@@ -24,11 +25,12 @@ class SEChallengeViewModelImpl {
         
     private func fetchOrder() {
         let order = orderGenerator.next()
+        _orderPriceChanged?("Loading...")
         dataBaseManager.loadPrice(order: order) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let orderPrice):
-                self.calculatorPrice(order: order, orderPrice: orderPrice, isNew: false)
+                self.calculatePrice(order: order, orderPrice: orderPrice, isNew: false)
             case .failure:
                 self.fetchPriceFromService(order: order, shouldRetry: true)
             }
@@ -41,7 +43,7 @@ class SEChallengeViewModelImpl {
             switch result {
             case .success(let orderPrice):
                 self?.dataBaseManager.savePrice(order: order, orderPrice: orderPrice)
-                self?.calculatorPrice(order: order, orderPrice: orderPrice, isNew: true)
+                self?.calculatePrice(order: order, orderPrice: orderPrice, isNew: true)
             case .failure(let error):
                 if !shouldRetry {
                     self?.fetchComplete(result: .failure(error))
@@ -52,7 +54,7 @@ class SEChallengeViewModelImpl {
         }
     }
     
-    private func calculatorPrice(order: Order, orderPrice: OrderPrice, isNew: Bool) {
+    private func calculatePrice(order: Order, orderPrice: OrderPrice, isNew: Bool) {
         logIfNeeded(order: order, orderPrice: orderPrice, isNew: isNew)
         let orderPriceMultiple = orderPriceCalculator.multiplePrice(orderPrice: orderPrice)
         logIfNeeded(order: order, orderPrice: orderPriceMultiple, isNew: isNew)
@@ -70,15 +72,31 @@ class SEChallengeViewModelImpl {
     
     private func fetchComplete(result: Result<OrderPrice, Error>) {
         DispatchQueue.main.async { [weak self] in
-            self?.completion?(result)
+            let text: String
+            switch result {
+            case .success(let orderPrice):
+                text = "Load price success: \(orderPrice.prettyPrint())"
+            case .failure:
+                text = ":("
+            }
+            self?._orderPriceChanged?(text)
         }
     }
 }
 
-/// Output
 extension SEChallengeViewModelImpl: SEChallengeViewModel {
-    func runButtonTapped(completion: @escaping (Result<OrderPrice, Error>) -> Void) {
-        self.completion = completion
+    /// Output
+    var orderPriceChanged: ((String) -> Void)? {
+        get {
+            return _orderPriceChanged
+        }
+        set {
+            _orderPriceChanged = newValue
+        }
+    }
+
+    /// Input
+    func runButtonTapped() {
         fetchOrder()
     }
 }
